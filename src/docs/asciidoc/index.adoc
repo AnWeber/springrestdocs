@@ -1,0 +1,5 @@
+include::{snippets}/task-controller-test/get-tasks/auto-section.adoc[]
+include::{snippets}/task-controller-test/get-task/auto-section.adoc[]
+include::{snippets}/task-controller-test/insert-task/auto-section.adoc[]
+include::{snippets}/task-controller-test/update-task/auto-section.adoc[]
+include::{snippets}/task-controller-test/delete-task/auto-section.adoc[]
