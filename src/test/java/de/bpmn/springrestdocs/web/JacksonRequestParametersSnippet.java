@@ -5,11 +5,14 @@ import static capital.scalable.restdocs.SnippetRegistry.AUTO_REQUEST_FIELDS;
 
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.Type;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 
@@ -41,12 +44,19 @@ public class JacksonRequestParametersSnippet extends AbstractJacksonFieldSnippet
     protected Type getType(HandlerMethod method) {
         for (MethodParameter param : method.getMethodParameters()) {
             if (isModelAttribute(param) || hasNoHandlerMethodArgumentResolver(param)) {
+                if(isRequestFields(method))
                 return getType(param);
             }
         }
         return null;
     }
 
+    private boolean isRequestFields(HandlerMethod method) {
+        RequestMapping requestMapping = method.getMethodAnnotation(RequestMapping.class);
+        return requestMapping.method() == null || Arrays.stream(requestMapping.method()).allMatch(obj -> {
+            return obj != RequestMethod.GET;
+        });
+    }
 
     private boolean isModelAttribute(MethodParameter param) {
         return param.getParameterAnnotation(ModelAttribute.class) != null;
@@ -106,12 +116,13 @@ public class JacksonRequestParametersSnippet extends AbstractJacksonFieldSnippet
 
     @Override
     protected String[] getTranslationKeys() {
+
         return new String[]{
-                "th-path",
-                "th-type",
-                "th-optional",
-                "th-description",
-                "no-request-body"
+            "th-path",
+            "th-type",
+            "th-optional",
+            "th-description",
+            "no-request-body"
         };
     }
 }

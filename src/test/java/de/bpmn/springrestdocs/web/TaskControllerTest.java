@@ -44,47 +44,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 @ExtendWith({SpringExtension.class, RestDocumentationExtension.class})
 @WebMvcTest(TaskController.class)
-public class TaskControllerTest {
+public class TaskControllerTest extends BaseControllerTest {
 
-  @Autowired
-  private ObjectMapper objectMapper;
-  @Autowired
-  private WebApplicationContext context;
-
-  private MockMvc mockMvc;
 
   @MockBean
   private TaskService TasksService;
 
-  @BeforeEach
-  void setUp(RestDocumentationContextProvider restDocumentation) {
 
-    var resolvers = context.getBeansOfType(HandlerMethodArgumentResolver.class);
-
-      this.mockMvc = MockMvcBuilders
-              .webAppContextSetup(context)
-              .alwaysDo(JacksonResultHandlers.prepareJackson(objectMapper))
-              .apply(MockMvcRestDocumentation.documentationConfiguration(restDocumentation)
-                      .uris()
-                      .withScheme("https")
-                      .withHost("127.0.0.1")
-                      .withPort(443)
-                      .and().snippets()
-                      .withDefaults(CliDocumentation.curlRequest(),
-                              HttpDocumentation.httpRequest(),
-                              HttpDocumentation.httpResponse(),
-                              AutoDocumentation.responseFields(),
-                              AutoDocumentation.pathParameters(),
-                              new JacksonRequestParametersSnippet(resolvers.values(), false),
-                              AutoDocumentation.requestParameters(),
-                              AutoDocumentation.description(),
-                AutoDocumentation.methodAndPath(),
-
-                              AutoDocumentation.sectionBuilder().skipEmpty(true).build()))
-              .alwaysDo(document("{class-name}/{method-name}",
-                      preprocessRequest(prettyPrint()), preprocessResponse(prettyPrint())))
-        .build();
-  }
 
     @Test
   void getTasks() throws Exception {
