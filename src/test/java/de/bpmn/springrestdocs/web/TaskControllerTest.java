@@ -75,8 +75,11 @@ public class TaskControllerTest extends BaseControllerTest {
   @Test
   void updateTask() throws Exception {
     var task = new Task().setName("WorkItem update");
-    mockMvc.perform(post("/api/v1/tasks/{id}", 3)
-    .contentType("application/json")
+    mockMvc.perform(post("/api/v1/tasks/{id}",
+        3)
+        .contentType(
+            "application/json")
+    .header("Authorization", "Bearer 12")
     .content(objectMapper.writeValueAsString(task)))
         .andExpect(status().isOk());
   }

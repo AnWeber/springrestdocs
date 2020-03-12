@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -52,14 +53,19 @@ public class TaskController {
     public Task insertTask(@RequestBody Task task) {
         return this.taskService.insertTask(task);
     }
+
     /**
      * aktualisiere en Task
+     * @param authorization Anmeldetoken
      * @param id Id des Tasks
      * @param task der Task
      * @return der angefragte Task
      */
     @PostMapping("{id}")
-    public Task updateTask(@PathVariable("id") int id, @RequestBody Task task) {
+    public Task updateTask(
+            @RequestHeader("Authorization") String authorization,
+            @PathVariable("id") int id,
+            @RequestBody Task task) {
         return this.taskService.updateTask(task.setId(id));
     }
 
