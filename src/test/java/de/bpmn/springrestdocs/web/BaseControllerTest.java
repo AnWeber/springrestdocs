@@ -1,4 +1,5 @@
 package de.bpmn.springrestdocs.web;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.RestDocumentationContextProvider;
@@ -18,45 +19,47 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-
 /**
  * BaseControllerTest
  */
 public class BaseControllerTest {
 
-    @Autowired
-    protected ObjectMapper objectMapper;
-    @Autowired
-    protected WebApplicationContext context;
+  @Autowired
+  protected ObjectMapper objectMapper;
+  @Autowired
+  protected WebApplicationContext context;
 
-    protected MockMvc mockMvc;
-    @BeforeEach
-    void setUp(RestDocumentationContextProvider restDocumentation) {
+  protected MockMvc mockMvc;
 
-      var resolvers = this.context.getBeansOfType(HandlerMethodArgumentResolver.class);
+  @BeforeEach
+  void setUp(RestDocumentationContextProvider restDocumentation) {
 
-        this.mockMvc = MockMvcBuilders
-                .webAppContextSetup(context)
-                .alwaysDo(JacksonResultHandlers.prepareJackson(objectMapper))
-                .apply(MockMvcRestDocumentation.documentationConfiguration(restDocumentation)
-                        .uris()
-                        .withScheme("https")
-                        .withHost("127.0.0.1")
-                        .withPort(443)
-                        .and().snippets()
-                        .withDefaults(CliDocumentation.curlRequest(),
-                                HttpDocumentation.httpRequest(),
-                                HttpDocumentation.httpResponse(),
-                                AutoDocumentation.responseFields(),
-                                AutoDocumentation.pathParameters(),
-                                AutoDocumentation.requestParameters(),
-                                new JacksonRequestParametersSnippet(resolvers.values(), false),
-                                AutoDocumentation.description(),
-                  AutoDocumentation.methodAndPath(),
+    var resolvers = this.context.getBeansOfType(HandlerMethodArgumentResolver.class);
 
-                                AutoDocumentation.sectionBuilder().skipEmpty(true).build()))
-                .alwaysDo(document("{class-name}/{method-name}",
-                        preprocessRequest(prettyPrint()), preprocessResponse(prettyPrint())))
-          .build();
-    }
+    this.mockMvc = MockMvcBuilders.webAppContextSetup(context)
+        .alwaysDo(JacksonResultHandlers.prepareJackson(objectMapper))
+        .apply(MockMvcRestDocumentation.documentationConfiguration(restDocumentation).uris().withScheme("https")
+            .withHost("127.0.0.1").withPort(443).and().snippets()
+            .withDefaults(
+              CliDocumentation.curlRequest(),
+                HttpDocumentation
+                    .httpRequest(),
+                HttpDocumentation
+                    .httpResponse(),
+                AutoDocumentation.pathParameters(),
+                AutoDocumentation
+                    .requestParameters(),
+                AutoDocumentation.modelAttribute(null),
+                //AutoDocumentation.modelAttribute(resolvers.values()),
+                AutoDocumentation
+                    .responseFields(),
+                AutoDocumentation
+                    .description(),
+                AutoDocumentation.methodAndPath(),
+
+                AutoDocumentation.sectionBuilder().skipEmpty(true).build()))
+        .alwaysDo(
+            document("{class-name}/{method-name}", preprocessRequest(prettyPrint()), preprocessResponse(prettyPrint())))
+        .build();
+  }
 }

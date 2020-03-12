@@ -56,27 +56,30 @@ public class TaskControllerTest extends BaseControllerTest {
   void getTasks() throws Exception {
     when(this.TasksService.getTasks(any())).thenReturn(Collections.singletonList(new Task()));
 
-    mockMvc.perform(get("/api/v1/tasks"))
+    mockMvc.perform(get("/api/v1/tasks")
+    .header("Authorization", "Bearer 12"))
       .andExpect(status().isOk());
   }
 
   @Test
   void getTask() throws Exception {
-    mockMvc.perform(get("/api/v1/tasks/{id}", 1)).andExpect(status().isOk());
+    mockMvc.perform(get("/api/v1/tasks/{id}", 1)
+        .header("Authorization", "Bearer 12"))
+    .andExpect(status().isOk());
   }
 
   @Test
   void insertTask() throws Exception {
     var task = new Task().setName("WorkItem Insert");
     mockMvc.perform(post("/api/v1/tasks")
+    .header("Authorization", "Bearer 12")
     .contentType("application/json").content(objectMapper.writeValueAsString(task)))
         .andExpect(status().isOk());
   }
   @Test
   void updateTask() throws Exception {
     var task = new Task().setName("WorkItem update");
-    mockMvc.perform(post("/api/v1/tasks/{id}",
-        3)
+    mockMvc.perform(post("/api/v1/tasks/{id}",3)
         .contentType(
             "application/json")
     .header("Authorization", "Bearer 12")
@@ -86,7 +89,8 @@ public class TaskControllerTest extends BaseControllerTest {
 
   @Test
   void deleteTask() throws Exception {
-    mockMvc.perform(delete("/api/v1/tasks/{id}", 1))
+    mockMvc.perform(delete("/api/v1/tasks/{id}", 1)
+        .header("Authorization", "Bearer 12"))
         .andExpect(status().isOk());
   }
 }

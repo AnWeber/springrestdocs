@@ -27,30 +27,39 @@ public class TaskController {
     }
     /**
      * ermittle die Tasks anhand Filterkriterien
+     * @param authorization Anmeldetoken
      * @param filter Filtereinstellungen für die Suche
      * @return Liste an Tasksn
      */
     @GetMapping()
-    public List<Task> getTasks(TaskFilter filter) {
+    public List<Task> getTasks(
+        @RequestHeader("Authorization") String authorization,
+        TaskFilter filter) {
         return this.taskService.getTasks(filter);
     }
 
     /**
      * ermittle die Tasks anhand Filterkriterien
+     * @param authorization Anmeldetoken
      * @param id Id des Tasks
      * @return der angefragte Task
      */
     @GetMapping("{id}")
-    public Task getTask(@PathVariable("id") int id) {
+    public Task getTask(
+        @RequestHeader("Authorization") String authorization,
+        @PathVariable("id") int id) {
         return this.taskService.getTask(id);
     }
     /**
      * einfügen eines Tasks
+     * @param authorization Anmeldetoken
      * @param task der Task
      * @return der angefragte Task
      */
     @PostMapping
-    public Task insertTask(@RequestBody Task task) {
+    public Task insertTask(
+        @RequestHeader("Authorization") String authorization,
+        @RequestBody Task task) {
         return this.taskService.insertTask(task);
     }
 
@@ -71,11 +80,14 @@ public class TaskController {
 
     /**
     * einen Task löschen
+    * @param authorization Anmeldetoken
     * @param id Id des Tasks
     * @return der angefragte Task
     */
    @DeleteMapping("{id}")
-   public void deleteTask(@PathVariable("id") int id) {
+   public void deleteTask(
+        @RequestHeader("Authorization") String authorization,
+        @PathVariable("id") int id) {
        this.taskService.deleteTask(id);
    }
 }
