@@ -22,6 +22,7 @@ import capital.scalable.restdocs.AutoDocumentation;
 import capital.scalable.restdocs.jackson.JacksonResultHandlers;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 import de.bpmn.springrestdocs.domain.Task;
@@ -51,6 +52,12 @@ public class TaskControllerTest extends BaseControllerTest {
   private TaskService TasksService;
 
 
+  @Test
+  void m() throws Exception {
+    mockMvc.perform(get("/api/v1/tasks/a")
+    .header("b", "Bearer 12"))
+      .andExpect(status().isOk());
+  }
 
     @Test
   void getTasks() throws Exception {

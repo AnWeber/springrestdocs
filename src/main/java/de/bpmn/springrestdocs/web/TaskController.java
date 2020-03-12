@@ -3,6 +3,7 @@ package de.bpmn.springrestdocs.web;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +21,12 @@ import de.bpmn.springrestdocs.service.TaskService;
 @RequestMapping("api/v1/tasks")
 public class TaskController {
     private TaskService taskService;
+
+    @GetMapping("/a")
+    public void m(@RequestHeader("b") String someClass,
+        @Validated String someRequest) {
+
+    }
 
     @Autowired
     public TaskController(TaskService taskService) {
