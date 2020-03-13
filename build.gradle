@@ -33,6 +33,7 @@ dependencies {
 	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 	testCompile group: 'capital.scalable', name: 'spring-auto-restdocs-core', version: '2.0.8'
     jsondoclet group: 'capital.scalable', name: 'spring-auto-restdocs-json-doclet-jdk9', version: '2.0.8'
+    implementation 'junit:junit:4.12'
 }
 
 task jsonDoclet(type: Javadoc, dependsOn: compileJava) {
