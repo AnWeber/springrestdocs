@@ -12,6 +12,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 
 import capital.scalable.restdocs.AutoDocumentation;
+import capital.scalable.restdocs.SnippetRegistry;
 import capital.scalable.restdocs.jackson.JacksonResultHandlers;
 
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
@@ -42,22 +43,33 @@ public class BaseControllerTest {
             .withHost("127.0.0.1").withPort(443).and().snippets()
             .withDefaults(
               CliDocumentation.curlRequest(),
-                HttpDocumentation
-                    .httpRequest(),
-                HttpDocumentation
-                    .httpResponse(),
-                AutoDocumentation.pathParameters(),
-                AutoDocumentation
-                    .requestParameters(),
-                AutoDocumentation.modelAttribute(null),
-                //AutoDocumentation.modelAttribute(resolvers.values()),
-                AutoDocumentation
-                    .responseFields(),
-                AutoDocumentation
-                    .description(),
-                AutoDocumentation.methodAndPath(),
+              HttpDocumentation.httpRequest(),
+              HttpDocumentation.httpResponse(),
+              AutoDocumentation.pathParameters(),
+              AutoDocumentation.requestParameters(),
+              AutoDocumentation.modelAttribute(null),
+              // AutoDocumentation.modelAttribute(resolvers.values()),
+              AutoDocumentation.requestHeaders(),
+              AutoDocumentation.responseFields(),
+              AutoDocumentation.description(),
+              AutoDocumentation.methodAndPath(),
 
-                AutoDocumentation.sectionBuilder().skipEmpty(true).build()))
+              AutoDocumentation
+                .sectionBuilder()
+                .skipEmpty(true)
+                .snippetNames(
+                        SnippetRegistry.AUTO_AUTHORIZATION,
+                        SnippetRegistry.AUTO_PATH_PARAMETERS,
+                        SnippetRegistry.AUTO_REQUEST_HEADERS,
+                        SnippetRegistry.AUTO_REQUEST_PARAMETERS,
+                        SnippetRegistry.AUTO_MODELATTRIBUTE,
+                        SnippetRegistry.AUTO_REQUEST_FIELDS,
+                        SnippetRegistry.AUTO_RESPONSE_FIELDS,
+                        SnippetRegistry.AUTO_LINKS,
+                        SnippetRegistry.AUTO_EMBEDDED,
+                        SnippetRegistry.CURL_REQUEST,
+                        SnippetRegistry.HTTP_RESPONSE)
+                    .build()))
         .alwaysDo(
             document("{class-name}/{method-name}", preprocessRequest(prettyPrint()), preprocessResponse(prettyPrint())))
         .build();

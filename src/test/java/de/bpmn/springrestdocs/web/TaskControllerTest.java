@@ -1,43 +1,23 @@
 package de.bpmn.springrestdocs.web;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.hateoas.MediaTypes;
-import org.springframework.restdocs.RestDocumentationContextProvider;
-import org.springframework.restdocs.RestDocumentationExtension;
-import org.springframework.restdocs.cli.CliDocumentation;
-import org.springframework.restdocs.http.HttpDocumentation;
-import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.method.support.HandlerMethodArgumentResolver;
-
-import capital.scalable.restdocs.AutoDocumentation;
-import capital.scalable.restdocs.jackson.JacksonResultHandlers;
-
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
-
-import de.bpmn.springrestdocs.domain.Task;
-import de.bpmn.springrestdocs.service.TaskService;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.Collections;
 
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.restdocs.RestDocumentationExtension;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
+import de.bpmn.springrestdocs.domain.Task;
+import de.bpmn.springrestdocs.service.TaskService;
 
 
 /**
@@ -47,17 +27,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @WebMvcTest(TaskController.class)
 public class TaskControllerTest extends BaseControllerTest {
 
-
   @MockBean
   private TaskService TasksService;
-
-
-  @Test
-  void m() throws Exception {
-    mockMvc.perform(get("/api/v1/tasks/a")
-    .header("b", "Bearer 12"))
-      .andExpect(status().isOk());
-  }
 
     @Test
   void getTasks() throws Exception {

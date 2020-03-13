@@ -22,12 +22,6 @@ import de.bpmn.springrestdocs.service.TaskService;
 public class TaskController {
     private TaskService taskService;
 
-    @GetMapping("/a")
-    public void m(@RequestHeader("b") String someClass,
-        @Validated String someRequest) {
-
-    }
-
     @Autowired
     public TaskController(TaskService taskService) {
         this.taskService = taskService;
